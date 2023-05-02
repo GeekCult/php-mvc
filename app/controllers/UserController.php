@@ -30,7 +30,10 @@ class UserController
         $data = array(
             'first_name' => $_POST['first_name'],
             'last_name' => $_POST['last_name'],
-            'email' => $_POST['email']
+            'email' => $_POST['email'],
+            'address' => $_POST['address'],
+            'number' => $_POST['number'],
+            'city' => $_POST['city'],
         );
 
         $user = new User();

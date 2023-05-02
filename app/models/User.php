@@ -1,6 +1,6 @@
 <?php 
 namespace App\Models;
-use PDO, App\Models\UserAddress, App\Utils\Db;
+use \PDO, App\Models\UserAddress, App\Utils\Db;
 
 class User
 {
@@ -50,9 +50,18 @@ class User
     {
         $pdo = Db::getConection();
         $sql = "INSERT INTO user (first_name, last_name, email) VALUES (:first_name, :last_name, :email)";
-        
+
         $stmt= $pdo->prepare($sql);
-        $save = $stmt->execute($data);
+        $stmt->bindParam('first_name', $data['first_name'], PDO::PARAM_STR);
+        $stmt->bindParam('last_name', $data['last_name'], PDO::PARAM_STR);
+        $stmt->bindParam('email', $data['email'], PDO::PARAM_INT);
+       
+        $save= $stmt->execute();
+
+        $id = $pdo->lastInsertId();
+
+        $address = new UserAddress();
+        $save = $address->create($id, $data);
 
         return $save;
     }

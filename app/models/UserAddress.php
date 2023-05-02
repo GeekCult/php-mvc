@@ -1,14 +1,14 @@
 <?php 
 namespace App\Models;
+use \PDO, App\Utils\Db;
 
 class UserAddress
 {
     protected $id;
-    protected $title;
-    protected $description;
-    protected $price;
-    protected $sku;
-    protected $image;
+    protected $id_user;
+    protected $address;
+    protected $number;
+    protected $city;
 
     // GET METHODS
     public function getId()
@@ -16,61 +16,63 @@ class UserAddress
         return $this->id;
     }
 
-    public function getTitle()
+    public function getUserId()
     {
-        return $this->title;
+        return $this->id_user;
     }
 
-    public function getDescription()
+    public function getAddress()
     {
-        return $this->description;
+        return $this->address;
     }
 
-    public function getPrice()
+    public function getNumber()
     {
-        return $this->price;
+        return $this->number;
     }
 
-    public function getSku()
+    public function getCity()
     {
-        return $this->sku;
+        return $this->city;
     }
 
-    public function getImage()
-    {
-        return $this->image;
-    }
 
+    public function setUserId(int $id_user)
+    {
+        $this->id_user = $id_user;
+    }
     // SET METHODS
-    public function setTitle(string $title)
+    public function setAddress(string $address)
     {
-        $this->title = $title;
+        $this->address = $address;
     }
 
-    public function setDescription(string $description)
+    public function setNumber(int $number)
     {
-        $this->description = $description;
+        $this->number = $number;
     }
 
-    public function setPrice(string $price)
+    public function setCity(string $city)
     {
-        $this->price = $price;
+        $this->city = $city;
     }
-
-    // CRUD OPERATIONS
-    public function create(array $data)
+    public function create(int $id_user, array $data)
     {
+        $pdo = Db::getConection();
+        $sql = "INSERT INTO user_address (id_user, address, number, city) VALUES (:id_user, :address, :number, :city)";
 
+        $stmt= $pdo->prepare($sql);
+        $stmt->bindParam('id_user', $id_user, PDO::PARAM_INT);
+        $stmt->bindParam('address', $data['address'], PDO::PARAM_STR);
+        $stmt->bindParam('number', $data['number'], PDO::PARAM_INT);
+        $stmt->bindParam('city', $data['city'], PDO::PARAM_STR);
+        $save = $stmt->execute();
+        return $save;
     }
 
     public function find(int $id = 0)
     {
-        $this->title = 'My first Product';
-        $this->description = 'Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum ';
-        $this->price = 2.56;
-        $this->sku = 'MVC-SP-PHP-01';
-        $this->image = 'https://via.placeholder.com/150';
-        return $this;
+       
     }
 
     public function update(int $id, array $data)
