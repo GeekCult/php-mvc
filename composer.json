@@ -1,0 +1,16 @@
+{
+    "name": "carlosgarcia/simple-mvc-framework",
+    "description": "Simple MVC framework",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "classmap": [
+            "app/"
+        ]
+    },
+    "require": {
+        "symfony/routing": "^5.4",
+        "symfony/http-foundation": "^5.4"
+    }
+}
